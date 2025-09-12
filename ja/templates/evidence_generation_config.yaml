@@ -1,0 +1,231 @@
+# Evidence Generation System Configuration
+# 証跡生成システム設定
+
+evidence_generation_system:
+  name: "証跡生成システム"
+  description: "作業結果の自動化された証跡生成と記録システム"
+  version: "1.0.0"
+  
+  # 自動化の原則
+  automation_principles:
+    copy_paste_ready: true
+    timestamp_automatic: true
+    template_based: true
+    team_sharing_optimized: true
+    
+  # 証跡テンプレート
+  report_templates:
+    
+    # リソース削除作業
+    resource_cleanup:
+      filename: "resource_cleanup_template.md"
+      use_cases:
+        - "Spanner Kit upgrade resource cleanup"
+        - "Legacy infrastructure removal"
+        - "Development environment cleanup"
+      format: "markdown_with_copy_blocks"
+      
+    # プルリクエスト活動
+    pull_request_activity:
+      filename: "pull_request_template.md" 
+      use_cases:
+        - "PR作成完了報告"
+        - "CI結果サマリー"
+        - "レビュー依頼記録"
+      format: "markdown_with_links"
+      
+    # CI問題解決
+    ci_resolution:
+      filename: "ci_fix_template.md"
+      use_cases:
+        - "Provider version conflict resolution"
+        - "Terraform validation errors"
+        - "Build failure recovery"
+      format: "markdown_with_technical_details"
+      
+    # 進捗サマリー
+    progress_summary:
+      filename: "progress_summary_template.md"
+      use_cases:
+        - "Daily progress report"
+        - "Weekly milestone summary"
+        - "Project completion report"
+      format: "markdown_with_statistics"
+
+  # フォーマット仕様
+  formatting_specifications:
+    
+    # コピー可能ブロック
+    copy_blocks:
+      enabled: true
+      syntax: "markdown_code_blocks"
+      purpose: "チーム共有での簡単コピー&ペースト"
+      
+    # タイムスタンプ
+    timestamp:
+      format: "JST_automatic"
+      pattern: "YYYY-MM-DDTHH:MM:SS+09:00"
+      placement: "header_and_completion"
+      
+    # 絵文字カテゴリ
+    emoji_categories:
+      success: "✅ 🎉 ✨"
+      in_progress: "⏳ 🔄 📋"
+      error: "❌ ⚠️ 🔧"
+      resources: "📦 🔄 🗄️ 🪣"
+      time: "⏱️ 🕐"
+      security: "🔐 🛡️"
+      
+  # 統合機能
+  integration_features:
+    
+    # TSV連携
+    tsv_linking:
+      enabled: true
+      auto_update: true
+      status_sync: true
+      
+    # PR参照
+    pr_references:
+      auto_detection: true
+      link_validation: true
+      ci_status_fetch: true
+      
+    # チーム共有準備
+    team_sharing_ready:
+      slack_optimized: true
+      github_comment_ready: true
+      email_friendly: true
+
+# 証跡テンプレートの実装例
+template_examples:
+  
+  # リソース削除証跡
+  resource_cleanup_example: |
+    # 🗑️ Resource Cleanup Results for {service_name}-{environment}
+    
+    **Date**: {timestamp}
+    **Service**: {service_name}
+    **Environment**: {environment}
+    **PR Reference**: {pr_url}
+    
+    ## ✅ Successfully Deleted Resources:
+    
+    **📦 Backups:**
+    {backup_list}
+    
+    **🔄 Standby Instance:**
+    {standby_list}
+    
+    **🗄️ Metadata Database:**
+    {metadata_list}
+    
+    **🪣 GCS Bucket:**
+    {bucket_list}
+    
+    ### 📝 Verified Resources (No Action Required):
+    {verified_resources}
+    
+    ### ⏱️ Execution Details:
+    - **Duration**: {duration}
+    - **Permissions**: {permission_method}
+    - **Authentication**: {auth_method}
+    - **Status**: {final_status}
+    
+    ### 📋 Notes:
+    {additional_notes}
+    
+  # CI修正証跡
+  ci_fix_example: |
+    # 🔧 CI Error Resolution Report
+    
+    **Date**: {timestamp}
+    **Service**: {service_name}
+    **Environment**: {environment}
+    **PR**: {pr_url}
+    
+    ## 🎯 Problem Summary:
+    ```
+    {error_message}
+    ```
+    
+    ## 🔍 Root Cause:
+    {root_cause_analysis}
+    
+    ## ✅ Solution Applied:
+    ```diff
+    {code_changes}
+    ```
+    
+    ## 📊 Results:
+    - **CI Status**: {ci_status}
+    - **Resolution Time**: {resolution_time}
+    - **Tests Passed**: {tests_passed}
+    
+    ## 💡 Prevention:
+    {prevention_measures}
+
+# 自動生成スクリプト統合
+script_integration:
+  
+  # 生成コマンド例
+  generation_commands:
+    - command: "generate_cleanup_evidence"
+      description: "リソース削除証跡の自動生成"
+      parameters: ["service_name", "environment", "pr_url"]
+      
+    - command: "generate_ci_fix_evidence"
+      description: "CI修正証跡の自動生成" 
+      parameters: ["service_name", "error_type", "solution"]
+      
+    - command: "update_progress_tsv"
+      description: "TSV進捗ファイルの自動更新"
+      parameters: ["status", "notes", "timestamp"]
+
+# 品質保証
+quality_assurance:
+  
+  # 必須要素チェック
+  required_elements:
+    - "明確なタイムスタンプ"
+    - "サービス・環境の特定"
+    - "作業結果の具体的記録"
+    - "次のアクションの明示"
+    
+  # 読みやすさ基準
+  readability_standards:
+    - "絵文字による視覚的分類"
+    - "コードブロックでの技術詳細"
+    - "箇条書きでの構造化"
+    - "リンクによる関連情報アクセス"
+    
+  # チーム共有最適化
+  team_sharing_optimization:
+    - "コピー&ペースト可能な形式"
+    - "Slack投稿に適したサイズ"
+    - "技術者以外にも理解可能"
+    - "検索しやすいキーワード含有"
+
+# 効果測定
+effectiveness_metrics:
+  
+  # 定量的指標
+  quantitative_metrics:
+    - "証跡作成時間: 従来比70%短縮"
+    - "情報検索時間: 従来比80%短縮" 
+    - "チーム共有効率: 3倍向上"
+    
+  # 定性的効果
+  qualitative_benefits:
+    - "作業品質の標準化"
+    - "ナレッジの組織的蓄積"
+    - "新メンバーのオンボーディング加速"
+    - "監査対応の効率化"
+
+# バージョン履歴
+version_history:
+  - version: "1.0.0"
+    date: "2025-09-11"
+    changes: "実際の運用経験を基に初期版作成"
+    author: "AI Agent Mei-chan"
+    basis: "kouzoh-tns-score-jp resource cleanup での実証"

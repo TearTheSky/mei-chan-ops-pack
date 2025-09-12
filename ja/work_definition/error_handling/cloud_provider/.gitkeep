@@ -1,0 +1,2 @@
+# Cloud provider specific error handling procedures  
+# GCP権限エラー、Azure リソース登録、AWS サービスクォータなど

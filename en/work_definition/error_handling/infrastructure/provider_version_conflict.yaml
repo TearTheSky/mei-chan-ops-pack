@@ -1,0 +1,145 @@
+# Google Provider Version Conflict Resolution
+# Proven solution for Terraform Google Provider version conflicts from real incidents
+
+task:
+  name: "Google Provider Version Conflict Resolution"
+  description: "Resolve Terraform Google Provider version conflicts"
+  category: "error_handling"
+  version: "1.0.0"
+  
+# Prerequisites
+prerequisites:
+  - "Write access to Terraform configuration files"
+  - "Git operation permissions"
+  - "Completed error log analysis"
+  
+# Required tools
+required_tools:
+  - "Text editor (Cursor/VSCode etc.)"
+  - "Git CLI"
+  - "Terraform CLI (optional for validation)"
+  
+# Estimated duration
+estimated_duration: "5-10 minutes"
+
+# Trigger conditions
+triggers:
+  - "CI error: 'edition' attribute not supported"
+  - "CI error: 'default_backup_schedule_type' attribute not supported"
+  - "Error: 'google-beta provider doesn't have version'"
+
+# Resolution steps
+steps:
+  - step: 1
+    action: "Identify required Provider version from error logs"
+    expected_result: "Determine v6.0+ is required"
+    ai_notes: "Spanner 'edition' attribute was introduced in Google Provider v6.0+"
+    
+  - step: 2
+    action: "Locate and examine versions.tf file"
+    expected_result: "Confirm current version constraints (e.g., ~> 5.37)"
+    ai_notes: "Check terraform/microservices/{service}/{env}/versions.tf"
+    
+  - step: 3
+    action: "Update Google Provider version to v6.3"
+    expected_result: "Unify both google and google-beta to ~> 6.3"
+    ai_notes: "Both google and google-beta must use the same version"
+    
+  - step: 4
+    action: "Commit and push changes"
+    expected_result: "CI re-executes automatically"
+    ai_notes: "Include fix reason in commit message"
+
+# Expected outcome
+expected_outcome:
+  success_criteria:
+    - "CI terraform validate succeeds"
+    - "'edition' attribute error resolved"
+    - "terraform plan executes normally"
+  deliverables:
+    - "Updated versions.tf file"
+    - "Successful CI execution results"
+
+# Specific fix examples
+fix_examples:
+  before: |
+    google = {
+      version = "~> 5.37"
+      source  = "hashicorp/google"
+    }
+    google-beta = {
+      version = "~> 5.31" 
+      source  = "hashicorp/google-beta"
+    }
+    
+  after: |
+    google = {
+      version = "~> 6.3"
+      source  = "hashicorp/google"
+    }
+    google-beta = {
+      version = "~> 6.3"
+      source  = "hashicorp/google-beta"
+    }
+
+# Error handling
+error_handling:
+  common_errors:
+    - error: "Provider version constraint conflicts"
+      solution: "Update all google/google-beta references to unified version"
+      
+    - error: "Terraform lock file conflicts"
+      solution: "Run terraform init -upgrade to update lock file"
+      escalation: "Manually delete .terraform.lock.hcl and reinitialize"
+
+# Human confirmation points
+human_confirmation_points:
+  - point: "Verify version upgrade impact scope"
+    reason: "Confirm compatibility impact on other resources"
+    
+  - point: "Final CI success confirmation"
+    reason: "Ensure all tests pass successfully"
+
+# Related tasks
+related_tasks:
+  prerequisites:
+    - "Detailed CI error log analysis"
+  follow_up:
+    - "TSV progress record update"
+    - "Success evidence generation"
+    
+# Evidence requirements
+evidence_requirements:
+  - type: "TSV_UPDATE"
+    template: "CI SUCCESS AFTER PROVIDER FIX: Google Provider upgraded to v{version} to support '{attribute}' attribute"
+    
+  - type: "COMMIT_MESSAGE"
+    format: "Fix Google Provider version to support {attribute} attribute in {service}"
+
+# AI-specific notes
+ai_specific_notes:
+  efficiency_tips:
+    - "versions.tf file is typically located at terraform/microservices/{service}/{env}/"
+    - "Always unify google and google-beta to the same version"
+  common_pitfalls:
+    - "Forgetting to update google-beta version"
+    - "Not including fix reason in commit message makes later understanding difficult"
+  automation_opportunities:
+    - "Batch Provider version update script possible"
+    - "Automatic fix suggestions from CI error patterns"
+
+# Real success case
+success_case:
+  service: "kouzoh-tns-score-jp"
+  environment: "production"
+  error_message: "An argument named 'edition' is not expected here"
+  solution_applied: "Google Provider v5.37 → v6.3 upgrade"
+  result: "All CI checks successful"
+  duration: "Approximately 5 minutes"
+
+# Version history
+version_history:
+  - version: "1.0.0"
+    date: "2025-09-11"
+    changes: "Initial version based on actual kouzoh-tns-score-jp case"
+    author: "AI Agent Mei-chan"

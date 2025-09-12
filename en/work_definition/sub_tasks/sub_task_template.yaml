@@ -1,0 +1,95 @@
+# Sub Task Template
+# Sub Task Template
+
+task:
+  name: "{TASK_NAME}"
+  description: "{TASK_DESCRIPTION}"
+  category: "{CATEGORY}"  # prerequisite_checks/execution_steps/error_handling/evidence_generation/rollback_procedures
+  version: "1.0.0"
+  
+# Prerequisites
+prerequisites:
+  - "{PREREQUISITE_1}"
+  - "{PREREQUISITE_2}"
+  
+# Required tools/permissions
+required_tools:
+  - "{TOOL_1}"
+  - "{TOOL_2}"
+  
+# Estimated duration
+estimated_duration: "{DURATION}"  # e.g., "5-10 minutes"
+
+# Execution steps
+steps:
+  - step: 1
+    action: "{ACTION_1}"
+    expected_result: "{EXPECTED_RESULT_1}"
+    ai_notes: "{AI_SPECIFIC_GUIDANCE_1}"
+    
+  - step: 2
+    action: "{ACTION_2}"
+    expected_result: "{EXPECTED_RESULT_2}"
+    ai_notes: "{AI_SPECIFIC_GUIDANCE_2}"
+
+# Expected outcome
+expected_outcome:
+  success_criteria:
+    - "{SUCCESS_CRITERION_1}"
+    - "{SUCCESS_CRITERION_2}"
+  deliverables:
+    - "{DELIVERABLE_1}"
+    - "{DELIVERABLE_2}"
+
+# Error handling
+error_handling:
+  common_errors:
+    - error: "{ERROR_TYPE_1}"
+      solution: "{SOLUTION_1}"
+      reference: "!include error_handling/{specific_error}.yaml"
+      
+    - error: "{ERROR_TYPE_2}"
+      solution: "{SOLUTION_2}"
+      escalation: "{ESCALATION_PROCEDURE}"
+
+# Human confirmation points
+human_confirmation_points:
+  - point: "{CONFIRMATION_POINT_1}"
+    reason: "{REASON_1}"
+    
+  - point: "{CONFIRMATION_POINT_2}"
+    reason: "{REASON_2}"
+
+# Related tasks
+related_tasks:
+  prerequisites:
+    - "!include sub_tasks/{prerequisite_task}.yaml"
+  follow_up:
+    - "!include sub_tasks/{followup_task}.yaml"
+    
+# Evidence/recording requirements
+evidence_requirements:
+  - type: "{EVIDENCE_TYPE_1}"  # e.g., "TSV_UPDATE", "MARKDOWN_REPORT"
+    template: "{TEMPLATE_REFERENCE}"
+    
+  - type: "{EVIDENCE_TYPE_2}"
+    format: "{FORMAT_SPECIFICATION}"
+
+# AI-specific notes
+ai_specific_notes:
+  efficiency_tips:
+    - "{TIP_1}"
+    - "{TIP_2}"
+  common_pitfalls:
+    - "{PITFALL_1}"
+    - "{PITFALL_2}"
+  automation_opportunities:
+    - "{AUTOMATION_1}"
+    - "{AUTOMATION_2}"
+
+# Version history
+version_history:
+  - version: "1.0.0"
+    date: "YYYY-MM-DD"
+    changes: "Initial version created"
+    author: "Author name"

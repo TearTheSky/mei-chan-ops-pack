@@ -10,24 +10,36 @@ progress_tracking_config:
     # Enable/disable daily file splitting
     daily_file_splitting: true
     # File naming pattern (format and extension determined by human instructions)
-    file_naming_pattern: "{YYYY-MM-DD}_work_log.*"
+    file_naming_pattern: "{project_name}_results_{YYYY-MM-DD}.tsv"
     # Archive old files
     suggest_archive_old_files: true
     # Number of files to keep (latest N files)
     max_files_to_keep: 30
+    # JST datetime format standardization
+    datetime_format: "JST (UTC+9) - YYYY-MM-DDTHH:MM:SS+09:00"
+    # Importance of chronological order
+    chronological_order: true
 
   # Records for SpreadSheet - Records for spreadsheets
   records_for_spreadsheet:
     format: "TSV"
     fields:
-      - "service"      # Service name
-      - "environment"  # Environment
-      - "status"       # Status
-      - "dev_pr"       # Development PR
-      - "prod_pr"      # Production PR
-      - "memo"         # Memo
-    template: "{service}	{environment}	{status}	{dev_pr}	{prod_pr}	{memo}"
-    example: "example-service	development	INPROGRESS	https://github.com/org/repo/pull/12345		CI success, waiting for review"
+      - "DateTime"     # JST format timestamp (for chronological order)
+      - "ServiceName"  # Service name
+      - "Environment"  # Environment
+      - "Status"       # Status (PENDING/INPROGRESS/DONE/ERROR/BLOCKED/READY)
+      - "DevPR"        # Development PR
+      - "ProdPR"       # Production PR
+      - "Notes"        # Detailed notes, progress, issue tracking
+    template: "{DateTime}	{ServiceName}	{Environment}	{Status}	{DevPR}	{ProdPR}	{Notes}"
+    example: "2025-09-11T16:32:28+09:00	example-service	development	INPROGRESS	https://github.com/org/repo/pull/12345		CI success, waiting for review"
+    status_values:
+      - "PENDING: Not started"
+      - "INPROGRESS: In progress"
+      - "DONE: Completed"
+      - "ERROR: Error occurred"
+      - "BLOCKED: Blocked"
+      - "READY: Ready for action"
   
   # Working result for AI agent own - AI agent's own work result records
   working_result_for_ai_agent_own:

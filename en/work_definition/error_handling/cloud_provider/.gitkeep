@@ -1,0 +1,2 @@
+# Cloud provider specific error handling procedures
+# GCP permission errors, Azure resource registration, AWS service quotas, etc.

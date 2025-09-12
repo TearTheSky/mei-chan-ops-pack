@@ -1,0 +1,145 @@
+# Provider Version Conflict エラーハンドリング
+# 実際の運用で発生した Google Provider バージョン競合の解決手順
+
+task:
+  name: "Google Provider Version Conflict Resolution"
+  description: "Terraform Google Provider のバージョン競合エラーを解決する"
+  category: "error_handling"
+  version: "1.0.0"
+  
+# 前提条件
+prerequisites:
+  - "Terraform設定ファイルへの書き込み権限"
+  - "Git操作権限"
+  - "エラー詳細ログの確認完了"
+  
+# 必要なツール・権限
+required_tools:
+  - "テキストエディタ (Cursor/VSCode等)"
+  - "Git CLI"
+  - "Terraform CLI (optional for validation)"
+  
+# 推定所要時間
+estimated_duration: "5-10 minutes"
+
+# トリガー条件
+triggers:
+  - "CI で 'edition' attribute not supported エラー"
+  - "CI で 'default_backup_schedule_type' attribute not supported エラー"
+  - "'google-beta provider doesn't have version' エラー"
+
+# 実行手順
+steps:
+  - step: 1
+    action: "エラーログから必要なProvider バージョンを特定"
+    expected_result: "v6.0+ が必要と判明"
+    ai_notes: "Spanner の 'edition' 属性は Google Provider v6.0+ で導入された"
+    
+  - step: 2
+    action: "versions.tf ファイルを特定・確認"
+    expected_result: "現在のバージョン制約を確認 (例: ~> 5.37)"
+    ai_notes: "terraform/microservices/{service}/{env}/versions.tf を確認"
+    
+  - step: 3
+    action: "Google Provider バージョンを v6.3 に更新"
+    expected_result: "google と google-beta 両方を ~> 6.3 に統一"
+    ai_notes: "google-beta も同じバージョンに揃える必要がある"
+    
+  - step: 4
+    action: "変更をコミット・プッシュ"
+    expected_result: "CI が再実行される"
+    ai_notes: "コミットメッセージに修正理由を明記"
+
+# 期待される結果
+expected_outcome:
+  success_criteria:
+    - "CI での terraform validate が成功"
+    - "'edition' 属性エラーが解消"
+    - "terraform plan が正常実行"
+  deliverables:
+    - "修正された versions.tf"
+    - "成功したCI実行結果"
+
+# 具体的な修正例
+fix_examples:
+  before: |
+    google = {
+      version = "~> 5.37"
+      source  = "hashicorp/google"
+    }
+    google-beta = {
+      version = "~> 5.31" 
+      source  = "hashicorp/google-beta"
+    }
+    
+  after: |
+    google = {
+      version = "~> 6.3"
+      source  = "hashicorp/google"
+    }
+    google-beta = {
+      version = "~> 6.3"
+      source  = "hashicorp/google-beta"
+    }
+
+# エラーハンドリング
+error_handling:
+  common_errors:
+    - error: "Provider version constraint conflicts"
+      solution: "全ての google/google-beta 参照を統一バージョンに更新"
+      
+    - error: "Terraform lock file conflicts"
+      solution: "terraform init -upgrade を実行してロックファイル更新"
+      escalation: "手動で .terraform.lock.hcl を削除して再初期化"
+
+# 人間の確認が必要なポイント
+human_confirmation_points:
+  - point: "バージョンアップグレードの影響範囲確認"
+    reason: "他のリソースへの互換性影響を確認するため"
+    
+  - point: "CI成功の最終確認"
+    reason: "全てのテストが通過したことを確認するため"
+
+# 関連タスク
+related_tasks:
+  prerequisites:
+    - "CI エラーログの詳細確認"
+  follow_up:
+    - "TSV進捗記録の更新"
+    - "成功証跡の生成"
+    
+# 証跡・記録
+evidence_requirements:
+  - type: "TSV_UPDATE"
+    template: "CI SUCCESS AFTER PROVIDER FIX: Google Provider upgraded to v{version} to support '{attribute}' attribute"
+    
+  - type: "COMMIT_MESSAGE"
+    format: "Fix Google Provider version to support {attribute} attribute in {service}"
+
+# AI特有の注意事項
+ai_specific_notes:
+  efficiency_tips:
+    - "versions.tf ファイルは通常 terraform/microservices/{service}/{env}/ にある"
+    - "google と google-beta は必ず同じバージョンに統一する"
+  common_pitfalls:
+    - "google-beta のバージョン更新を忘れがち"
+    - "コミットメッセージに修正理由を含めないと後で理解困難"
+  automation_opportunities:
+    - "Provider バージョン一括更新スクリプトの作成可能"
+    - "CI エラーパターンからの自動修正提案"
+
+# 実際の成功事例
+success_case:
+  service: "kouzoh-tns-score-jp"
+  environment: "production"
+  error_message: "An argument named 'edition' is not expected here"
+  solution_applied: "Google Provider v5.37 → v6.3 upgrade"
+  result: "CI全チェック成功"
+  duration: "約5分"
+
+# バージョン履歴
+version_history:
+  - version: "1.0.0"
+    date: "2025-09-11"
+    changes: "実際のkouzoh-tns-score-jp事例を基に初期版作成"
+    author: "AI Agent Mei-chan"

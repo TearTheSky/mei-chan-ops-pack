@@ -1,0 +1,2 @@
+# Infrastructure & Terraform error handling procedures
+# Provider version conflicts, Terraform state issues, resource dependencies, etc.

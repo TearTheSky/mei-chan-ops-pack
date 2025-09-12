@@ -1,0 +1,92 @@
+# Modular Task Structure Configuration
+# Modular Task Structure Configuration
+
+modular_task_architecture:
+  name: "Modular Task Structure"
+  description: "Efficient workflow management through reusable sub-tasks"
+  version: "1.0.0"
+  
+  # Architecture design
+  architecture:
+    main_guide: "primary_workflow.yaml"
+    sub_tasks_directory: "sub_tasks/"
+    naming_convention: "{category}_{specific_task}.yaml"
+    cross_references: true
+    
+  # Sub-task categories
+  categories:
+    prerequisite_checks:
+      description: "Pre-work prerequisite verification"
+      examples:
+        - "authentication_check.yaml"
+        - "environment_validation.yaml" 
+        - "dependency_verification.yaml"
+        
+    execution_steps:
+      description: "Actual work execution procedures"
+      examples:
+        - "pr_creation.yaml"
+        - "ci_monitoring.yaml"
+        - "deployment_execution.yaml"
+        
+    error_handling:
+      description: "Error resolution procedures (dedicated directory: error_handling/)"
+      directory: "error_handling/"
+      examples:
+        - "provider_version_conflict.yaml"
+        - "ci_authentication_failure.yaml"
+        - "terraform_state_lock.yaml"
+        
+    evidence_generation:
+      description: "Work evidence generation and recording"
+      examples:
+        - "cleanup_report_generation.yaml"
+        - "progress_tsv_update.yaml"
+        - "team_notification.yaml"
+        
+    rollback_procedures:
+      description: "Emergency rollback procedures"
+      examples:
+        - "emergency_rollback.yaml"
+        - "state_restoration.yaml"
+        - "incident_response.yaml"
+  
+  # Cross-reference system
+  cross_reference_system:
+    enabled: true
+    format: "relative_path_linking"
+    syntax: "!include sub_tasks/{filename}"
+    validation: true
+    
+  # Template structure
+  sub_task_template:
+    required_fields:
+      - "task_name"
+      - "description" 
+      - "category"
+      - "prerequisites"
+      - "steps"
+      - "expected_outcome"
+      - "error_handling"
+      
+    optional_fields:
+      - "estimated_duration"
+      - "required_tools"
+      - "ai_specific_notes"
+      - "human_confirmation_points"
+      - "related_tasks"
+      
+  # Benefits
+  benefits:
+    reusability: "Sub-task reuse across different projects"
+    maintainability: "Improved maintainability through individual updates"
+    clarity: "Easy understanding of complex workflows"
+    scalability: "Gradual addition of new tasks"
+    
+  # Implementation guidelines
+  implementation_guidelines:
+    - "Main guide focuses on overview and flow control"
+    - "Sub-tasks follow single responsibility principle"
+    - "Error handling separated as independent sub-tasks"
+    - "Evidence generation standardized for automation"
+    - "Include clear instructions for AI agents"

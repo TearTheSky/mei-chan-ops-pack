@@ -1,0 +1,95 @@
+# サブタスクテンプレート
+# Sub Task Template
+
+task:
+  name: "{TASK_NAME}"
+  description: "{TASK_DESCRIPTION}"
+  category: "{CATEGORY}"  # prerequisite_checks/execution_steps/error_handling/evidence_generation/rollback_procedures
+  version: "1.0.0"
+  
+# 前提条件
+prerequisites:
+  - "{PREREQUISITE_1}"
+  - "{PREREQUISITE_2}"
+  
+# 必要なツール・権限
+required_tools:
+  - "{TOOL_1}"
+  - "{TOOL_2}"
+  
+# 推定所要時間
+estimated_duration: "{DURATION}"  # 例: "5-10 minutes"
+
+# 実行手順
+steps:
+  - step: 1
+    action: "{ACTION_1}"
+    expected_result: "{EXPECTED_RESULT_1}"
+    ai_notes: "{AI_SPECIFIC_GUIDANCE_1}"
+    
+  - step: 2
+    action: "{ACTION_2}"
+    expected_result: "{EXPECTED_RESULT_2}"
+    ai_notes: "{AI_SPECIFIC_GUIDANCE_2}"
+
+# 期待される結果
+expected_outcome:
+  success_criteria:
+    - "{SUCCESS_CRITERION_1}"
+    - "{SUCCESS_CRITERION_2}"
+  deliverables:
+    - "{DELIVERABLE_1}"
+    - "{DELIVERABLE_2}"
+
+# エラーハンドリング
+error_handling:
+  common_errors:
+    - error: "{ERROR_TYPE_1}"
+      solution: "{SOLUTION_1}"
+      reference: "!include sub_tasks/error_handling_{specific_error}.yaml"
+      
+    - error: "{ERROR_TYPE_2}"
+      solution: "{SOLUTION_2}"
+      escalation: "{ESCALATION_PROCEDURE}"
+
+# 人間の確認が必要なポイント
+human_confirmation_points:
+  - point: "{CONFIRMATION_POINT_1}"
+    reason: "{REASON_1}"
+    
+  - point: "{CONFIRMATION_POINT_2}"
+    reason: "{REASON_2}"
+
+# 関連タスク
+related_tasks:
+  prerequisites:
+    - "!include sub_tasks/{prerequisite_task}.yaml"
+  follow_up:
+    - "!include sub_tasks/{followup_task}.yaml"
+    
+# 証跡・記録
+evidence_requirements:
+  - type: "{EVIDENCE_TYPE_1}"  # 例: "TSV_UPDATE", "MARKDOWN_REPORT"
+    template: "{TEMPLATE_REFERENCE}"
+    
+  - type: "{EVIDENCE_TYPE_2}"
+    format: "{FORMAT_SPECIFICATION}"
+
+# AI特有の注意事項
+ai_specific_notes:
+  efficiency_tips:
+    - "{TIP_1}"
+    - "{TIP_2}"
+  common_pitfalls:
+    - "{PITFALL_1}"
+    - "{PITFALL_2}"
+  automation_opportunities:
+    - "{AUTOMATION_1}"
+    - "{AUTOMATION_2}"
+
+# バージョン履歴
+version_history:
+  - version: "1.0.0"
+    date: "YYYY-MM-DD"
+    changes: "初期版作成"
+    author: "作成者名"

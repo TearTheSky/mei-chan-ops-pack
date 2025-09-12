@@ -1,0 +1,92 @@
+# モジュラータスク構造設定
+# Modular Task Structure Configuration
+
+modular_task_architecture:
+  name: "モジュラータスク構造"
+  description: "再利用可能なサブタスクによる効率的なワークフロー管理"
+  version: "1.0.0"
+  
+  # アーキテクチャ設計
+  architecture:
+    main_guide: "primary_workflow.yaml"
+    sub_tasks_directory: "sub_tasks/"
+    naming_convention: "{category}_{specific_task}.yaml"
+    cross_references: true
+    
+  # サブタスクカテゴリ
+  categories:
+    prerequisite_checks:
+      description: "作業開始前の前提条件確認"
+      examples:
+        - "authentication_check.yaml"
+        - "environment_validation.yaml" 
+        - "dependency_verification.yaml"
+        
+    execution_steps:
+      description: "実際の作業実行手順"
+      examples:
+        - "pr_creation.yaml"
+        - "ci_monitoring.yaml"
+        - "deployment_execution.yaml"
+        
+    error_handling:
+      description: "エラー発生時の対処手順（専用ディレクトリ: error_handling/）"
+      directory: "error_handling/"
+      examples:
+        - "provider_version_conflict.yaml"
+        - "ci_authentication_failure.yaml"
+        - "terraform_state_lock.yaml"
+        
+    evidence_generation:
+      description: "作業証跡の生成と記録"
+      examples:
+        - "cleanup_report_generation.yaml"
+        - "progress_tsv_update.yaml"
+        - "team_notification.yaml"
+        
+    rollback_procedures:
+      description: "緊急時のロールバック手順"
+      examples:
+        - "emergency_rollback.yaml"
+        - "state_restoration.yaml"
+        - "incident_response.yaml"
+  
+  # クロスリファレンス機能
+  cross_reference_system:
+    enabled: true
+    format: "relative_path_linking"
+    syntax: "!include sub_tasks/{filename}"
+    validation: true
+    
+  # テンプレート構造
+  sub_task_template:
+    required_fields:
+      - "task_name"
+      - "description" 
+      - "category"
+      - "prerequisites"
+      - "steps"
+      - "expected_outcome"
+      - "error_handling"
+      
+    optional_fields:
+      - "estimated_duration"
+      - "required_tools"
+      - "ai_specific_notes"
+      - "human_confirmation_points"
+      - "related_tasks"
+      
+  # 利用効果
+  benefits:
+    reusability: "サブタスクの他プロジェクトでの再利用"
+    maintainability: "個別更新による保守性向上"
+    clarity: "複雑ワークフローの理解容易性"
+    scalability: "新しいタスクの段階的追加"
+    
+  # 実装ガイドライン
+  implementation_guidelines:
+    - "メインガイドは概要とフロー制御に集中"
+    - "サブタスクは単一責任の原則に従う"
+    - "エラーハンドリングは別サブタスクとして分離"
+    - "証跡生成は自動化可能な形で標準化"
+    - "AIエージェント向けの明確な指示を含める"

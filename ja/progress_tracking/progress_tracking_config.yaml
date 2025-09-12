@@ -10,24 +10,36 @@ progress_tracking_config:
     # 日別ファイル分割の有効/無効
     daily_file_splitting: true
     # ファイル命名パターン(書式と拡張子は人間の指示に従って決める)
-    file_naming_pattern: "{YYYY-MM-DD}_work_log.*"
+    file_naming_pattern: "{project_name}_results_{YYYY-MM-DD}.tsv"
     # 古いファイルのアーカイブ
     suggest_archive_old_files: true
     # 保持するファイル数（最新のN個）
     max_files_to_keep: 30
+    # JST日時形式の標準化
+    datetime_format: "JST (UTC+9) - YYYY-MM-DDTHH:MM:SS+09:00"
+    # 時系列順序の重要性
+    chronological_order: true
 
   # Records for SpreadSheet - スプレッドシート用の記録
   records_for_spreadsheet:
     format: "TSV"
     fields:
-      - "service"      # サービス名
-      - "environment"  # 環境
-      - "status"       # ステータス
-      - "dev_pr"       # 開発PR
-      - "prod_pr"      # 本番PR
-      - "memo"         # メモ
-    template: "{service}	{environment}	{status}	{dev_pr}	{prod_pr}	{memo}"
-    example: "example-service	development	INPROGRESS	https://github.com/org/repo/pull/12345		CI success, waiting for review"
+      - "DateTime"     # JST形式のタイムスタンプ（時系列順序用）
+      - "ServiceName"  # サービス名
+      - "Environment" # 環境
+      - "Status"      # ステータス (PENDING/INPROGRESS/DONE/ERROR/BLOCKED/READY)
+      - "DevPR"       # 開発PR
+      - "ProdPR"      # 本番PR
+      - "Notes"       # 詳細メモ・進捗・課題追跡
+    template: "{DateTime}	{ServiceName}	{Environment}	{Status}	{DevPR}	{ProdPR}	{Notes}"
+    example: "2025-09-11T16:32:28+09:00	example-service	development	INPROGRESS	https://github.com/org/repo/pull/12345		CI success, waiting for review"
+    status_values:
+      - "PENDING: 未開始"
+      - "INPROGRESS: 作業中"
+      - "DONE: 完了"
+      - "ERROR: エラー発生"
+      - "BLOCKED: ブロック中"
+      - "READY: 準備完了"
   
   # Working result for AI agent own - AIエージェント自身の作業結果記録
   working_result_for_ai_agent_own:
